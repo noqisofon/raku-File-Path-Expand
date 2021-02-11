@@ -1,0 +1,8 @@
+# -*- mode: gitinore; -*-
+
+# Emacs template files
+\#*#
+*~
+
+# Perl6 precomp
+.precomp/
