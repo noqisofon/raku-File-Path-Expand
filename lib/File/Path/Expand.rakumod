@@ -2,7 +2,7 @@ use v6;
 
 unit module File::Path::Expand;
 
-sub home-of($user-name = $*DISTRO.is-win ?? %*ENV<USER> !! $*ENV<LOGPATH>) {
+sub home-of($user-name = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGPATH>) {
     given $*VM.osname {
         when 'mswin32' {
             return IO::Spec::Cygwin.catpath( %*ENV<HOMEDRIVE>, "/Users/$user-name/", '' )
