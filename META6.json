@@ -1,15 +1,17 @@
 {
     "name": "File::Path::Expand",
-    "source-url": "",
+    "source-url": "https://github.com/noqisofon/raku-File-Path-Expand.git",
     "version": "0.0.1",
     "description": "expand filenames",
     "authors": [
-	"Ned Rihine"
+        "Ned Rihine"
     ],
     "license": "Artistic-2.0",
     "perl": "6.d",
-
-    "providers": [
-	"File::Path::Expand": "lib/File/Path/Expand.rakumod"
+    "test-depends": [
+        "Test::META"
+    ],
+    "provides": [
+        "File::Path::Expand": "lib/File/Path/Expand.rakumod"
     ]
 }
