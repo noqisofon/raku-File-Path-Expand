@@ -5,16 +5,24 @@ use lib 'lib';
 use Test;
 use File::Path::Expand;
 
-plan 3;
+plan 4;
 
 # $*HOME = 'some/to'.IO;
 
 is expand-filename( './hoge/piyo/fuga.txt' )     , './hoge/piyo/fuga.txt'                          , 'Local path';
 is expand-filename( '~/hoge/piyo/fuga.txt' )     , "$*HOME/hoge/piyo/fuga.txt".subst('\\', '/', :g), 'Home directory path';
-if $*SPEC ~~ IO::Spec::Win32 {
-    is expand-filename( '~alice/hoge/piyo/fuga.txt' ), "C:/Users/alice/hoge/piyo/fuga.txt"                , 'Other home directory path';
+
+my $expected = do if $*SPEC ~~ IO::Spec::Win32 {
+    "%*ENV<HOMEDRIVE>/Users/alice/hoge/piyo/fuga.txt"
 } else {
-    is expand-filename( '~alice/hoge/piyo/fuga.txt' ), "/home/alice/hoge/piyo/fuga.txt"                , 'Other home directory path';
+    "/home/alice/hoge/piyo/fuga.txt"
+}
+is expand-filename( '~alice/hoge/piyo/fuga.txt' ), $expected , 'Other home directory path';
+
+if $*KERNEL ~~ 'unix' {
+    is expand-filename( '~root/hoge/piyo/fuga.txt' ), '/root/hoge/piyo/fuga.txt', 'Root Direcotry';
+} else {
+    skip "Windows has root, but I don't use it much";
 }
 
 done-testing;
