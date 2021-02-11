@@ -11,7 +11,7 @@
     "test-depends": [
         "Test::META"
     ],
-    "provides": [
+    "provides": {
         "File::Path::Expand": "lib/File/Path/Expand.rakumod"
-    ]
+    }
 }
