@@ -2,28 +2,34 @@ use v6;
 
 unit module File::Path::Expand;
 
-sub home-of($user-name = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGNAME>) {
+multi home-of() {
+    my $user-name  = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGNAME>;
+
+    home-of( $user-name )
+}
+
+multi home-of(Str $user-name) {
     given $*VM.osname {
         when 'mswin32' {
-            return IO::Spec::Cygwin.catpath( %*ENV<HOMEDRIVE>, "/Users/$user-name/", '' )
+            my $home-drive = %*ENV<HOMEDRIVE>;
+
+            return IO::Spec::Cygwin.catpath( $home-drive, "/Users/$user-name", '' )
         }
         when 'linux' {
-            return "/home/$user-name/"
+            if $user-name ~~ 'root' {
+                return "/$user-name";
+            }
+            return "/home/$user-name";
         }
     }
 }
 
 sub expand-filename(Str $a-path) is export {
-    my $match = $a-path ~~ / ^^ '~' ( \w + )? '/' /;
-    unless $match.Bool {
-        return $a-path;
-    }
+    my $match = $a-path ~~  / ^ '~' <(\w+)> <?before '/'>? /;
+    if so $match {
+        my $user-name = $match.Str;
 
-    if $match[0]:exists {
-        my $user-name = $match[0].chunks[0].value;
-
-        return $match.replace-with( home-of( $user-name ) );
-        
+        return $a-path.subst( "~$user-name", home-of( $user-name ) );
     }
-    $match.replace-with( home-of )
+    $a-path.subst( '~', home-of )
 }
