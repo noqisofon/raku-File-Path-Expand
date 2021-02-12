@@ -36,7 +36,7 @@ plan 4;
     is expand-filename( '~alice/hoge/piyo/fuga.txt' ), $expected , 'Other home directory path';
 }
 
-if $*KERNEL ~~ 'unix' {
+if $*KERNEL ~~ 'linux' {
     is expand-filename( '~root/hoge/piyo/fuga.txt' ), '/root/hoge/piyo/fuga.txt', 'Root Direcotry';
 } else {
     skip "Windows has root, but I don't use it much";
