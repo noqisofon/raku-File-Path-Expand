@@ -1,3 +1,4 @@
+![CI](https://github.com/noqisofon/raku-File-Path-Expand/workflows/CI/badge.svg?event=push)
 
 NAME
 ====
