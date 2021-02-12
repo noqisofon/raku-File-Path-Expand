@@ -1,7 +1,7 @@
 {
     "name": "File::Path::Expand",
     "source-url": "https://github.com/noqisofon/raku-File-Path-Expand.git",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "expand filenames",
     "authors": [
         "Ned Rihine"
