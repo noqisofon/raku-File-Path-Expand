@@ -2,13 +2,13 @@ use v6;
 
 unit module File::Path::Expand;
 
-# multi home-of() {
-#     my $user-name  = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGNAME>;
+multi home-of() {
+    my $user-name  = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGNAME>;
 
-#     home-of( $user-name )
-# }
+    home-of( $user-name )
+}
 
-sub home-of(Str:D $user-name = $*DISTRO.is-win ?? %*ENV<USER> !! %*ENV<LOGNAME>) {
+multi home-of(Str:D $user-name) {
     given $*VM.osname {
         when 'mswin32' {
             my $home-drive = %*ENV<HOMEDRIVE>;
